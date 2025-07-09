@@ -1,6 +1,19 @@
 import type { Config } from 'jest';
-import { getJestProjectsAsync } from '@nx/jest';
+import nextJest from 'next/jest.js';
 
-export default async (): Promise<Config> => ({
-  projects: await getJestProjectsAsync(),
+const createJestConfig = nextJest({
+  dir: './',
 });
+
+const config: Config = {
+  displayName: 'budyet',
+  preset: './jest.preset.js',
+  transform: {
+    '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: './coverage/.',
+  testEnvironment: 'jsdom',
+};
+
+export default createJestConfig(config);
