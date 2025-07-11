@@ -1,0 +1,14 @@
+{
+  "name": "@monet/source",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Angelo N. Palermo <anpbusinessmail@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "apps/client",
+    "apps/rest-apis"
+  ]
+}
