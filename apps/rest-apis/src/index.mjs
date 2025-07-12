@@ -1,11 +1,11 @@
-import express from "express";
+import debug from "debug"
+import createApp from "./app.mjs"
 
-const app = express();
+const logger = debug("rest:app")
 
-app.get("/api", (req, res) => {
-  return res.json({ message: "sample" });
-});
+const app = createApp()
+const port = process.env.PORT
 
-app.listen(3333, () => {
-  console.log("server started");
-});
+app.listen(port, () => {
+  logger(`express server listening for request on http://localhost:${port}`)
+})
