@@ -5,8 +5,13 @@ import debug from "debug"
 const logger = debug("rest:transaction")
 const routes = express.Router({ strict: true })
 
-routes.get("/", (req, res) => {
-  return res.status(200).json({ msg: "sample" })
+routes.get("/", async (req, res) => {
+  try {
+    const result = await transaction.find()
+    return res.status(200).json(result)
+  } catch (error) {
+    logger("unable to get all transaction.")
+  }
 })
 
 routes.post("/create", async (req, res) => {
