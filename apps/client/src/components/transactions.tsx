@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 
+import TransactionModal from "./transaction-modal"
+
 export default function Transactions() {
   const [response, setResponse] = useState({})
 
@@ -11,8 +13,11 @@ export default function Transactions() {
   }, [])
 
   return (
-    <div>
-      <h2>Transactions</h2>
+    <div className="px-5">
+      <div className="w-full inline-flex items-center justify-between">
+        <h2>Transactions</h2>
+        <TransactionModal />
+      </div>
       <pre>{JSON.stringify(response, null, 2)}</pre>
     </div>
   )

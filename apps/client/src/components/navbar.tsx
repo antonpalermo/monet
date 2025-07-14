@@ -21,10 +21,8 @@ export default function Navbar() {
   return (
     <nav>
       {routes.map(route => (
-        <Link to={route.href}>
-          <Button key={route.label} variant="link">
-            {route.label}
-          </Button>
+        <Link key={route.label} to={route.href}>
+          <Button variant="ghost">{route.label}</Button>
         </Link>
       ))}
     </nav>
