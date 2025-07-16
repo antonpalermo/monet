@@ -11,7 +11,9 @@
     "cookie-parser": "^1.4.7",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
-    "mongoose": "^8.16.3"
+    "mongoose": "^8.16.3",
+    "passport": "^0.7.0",
+    "passport-google-oidc": "^0.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

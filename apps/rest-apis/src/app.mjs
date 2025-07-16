@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url"
 
 import path from "node:path"
 import express from "express"
+import passport from "passport"
 import session from "express-session"
 import cookieParser from "cookie-parser"
 
@@ -18,7 +19,7 @@ export default function createApp() {
   app.use(cookieParser(process.env.COOKIE_SECRET))
 
   app.use("/public", express.static(path.join(__dirname, "../public")))
-  app.use("/api", routes)
+
   app.use(
     session({
       secret: process.env.COOKIE_SECRET,
@@ -27,6 +28,11 @@ export default function createApp() {
       }
     })
   )
+
+  app.use(passport.initialize())
+  app.use(passport.session())
+
+  app.use("/api", routes)
 
   return app
 }
