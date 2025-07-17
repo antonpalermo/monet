@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser"
 
 import routes from "./routes/index.mjs"
 
+import "./strategies/google-strategy.mjs"
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -22,6 +24,8 @@ export default function createApp() {
 
   app.use(
     session({
+      saveUninitialized: true,
+      resave: false,
       secret: process.env.COOKIE_SECRET,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24
