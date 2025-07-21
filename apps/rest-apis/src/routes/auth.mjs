@@ -15,4 +15,8 @@ routes.get(
   })
 )
 
+routes.get("/status", (req, res) => {
+  return req.user ? res.send(req.user) : res.sendStatus(401)
+})
+
 export default routes

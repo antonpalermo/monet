@@ -1,14 +1,21 @@
+import mongoose from "mongoose"
+
 import passport from "passport"
 import { Strategy as GoogleStrategy } from "passport-google-oidc"
 
+import User from "../models/user.mjs"
+import Account from "../models/account.mjs"
+
 passport.serializeUser((user, done) => {
-  console.log(user)
-  return done(null, "1")
+  return done(null, user)
 })
 
-passport.deserializeUser((id, done) => {
-  console.log("id: ", id)
-  return done(null, { user: "ok" })
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findOne({
+    _id: new mongoose.Types.ObjectId(`${id}`)
+  })
+
+  return done(null, user.toJSON())
 })
 
 export default passport.use(
@@ -17,11 +24,33 @@ export default passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/api/auth/oauth2/redirect/google",
-      scope: ["profile"]
+      scope: ["profile", "email"]
     },
     async function verify(profile, issuer, cb) {
-      console.log("profile: ", profile, "issuer: ", issuer)
-      return cb(null, { msg: "ok" })
+      const account = await Account.create({
+        provider: {
+          id: issuer.id,
+          name: "google",
+          type: "oauth"
+        },
+        scope: ["profile", "email"]
+      })
+
+      const user = await User.findOneAndUpdate(
+        {
+          email: issuer.emails[0].value
+        },
+        {
+          name: issuer.displayName,
+          accounts: [account._id]
+        },
+        {
+          new: true,
+          upsert: true
+        }
+      )
+
+      return cb(null, user.id)
     }
   )
 )
