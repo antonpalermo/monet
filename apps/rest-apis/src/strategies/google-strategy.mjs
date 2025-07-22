@@ -13,7 +13,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   const user = await User.findOne({
     _id: new mongoose.Types.ObjectId(`${id}`)
-  })
+  }).select("-accounts")
 
   return done(null, user.toJSON())
 })
