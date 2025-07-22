@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 import passport from "passport"
-import { Strategy as GoogleStrategy } from "passport-google-oidc"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 
 import User from "../models/user.mjs"
 import Account from "../models/account.mjs"
@@ -26,22 +26,32 @@ export default passport.use(
       callbackURL: "/api/auth/oauth2/redirect/google",
       scope: ["profile", "email"]
     },
-    async function verify(profile, issuer, cb) {
-      const account = await Account.create({
-        provider: {
-          id: issuer.id,
-          name: "google",
-          type: "oauth"
+    async function verify(accessToken, refreshToken, profile, done) {
+      const userProfile = profile._json
+
+      const account = await Account.findOneAndUpdate(
+        { "provider.id": profile.id },
+        {
+          verified: userProfile.email_verified,
+          provider: {
+            id: profile.id,
+            accessToken,
+            refreshToken,
+            name: "google",
+            type: "oauth"
+          },
+          scope: ["profile", "email"]
         },
-        scope: ["profile", "email"]
-      })
+        { new: true, upsert: true }
+      )
 
       const user = await User.findOneAndUpdate(
         {
-          email: issuer.emails[0].value
+          email: userProfile.email
         },
         {
-          name: issuer.displayName,
+          name: userProfile.name,
+          image: userProfile.picture,
           accounts: [account._id]
         },
         {
@@ -50,7 +60,7 @@ export default passport.use(
         }
       )
 
-      return cb(null, user.id)
+      return done(null, user.id)
     }
   )
 )

@@ -10,6 +10,9 @@ const schema = mongoose.Schema(
       required: true,
       unique: true
     },
+    image: {
+      type: mongoose.Schema.Types.String
+    },
     accounts: [
       {
         type: mongoose.Schema.Types.ObjectId,
