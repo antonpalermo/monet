@@ -10,8 +10,8 @@ routes.get("/signin/google", passport.authenticate("google"))
 routes.get(
   "/oauth2/redirect/google",
   passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/failed"
+    successRedirect: process.env.CLIENT_URL,
+    failureRedirect: `${process.env.CLIENT_URL}/auth/signin?status=error`
   })
 )
 
