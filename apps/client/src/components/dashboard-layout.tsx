@@ -1,7 +1,9 @@
 import { Navigate, Outlet } from "react-router"
 
-import Header from "@/components/header"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+
 import useSession from "@/hooks/useSession"
+import DashboardSidebar from "@/components/dashboard-sidebar"
 
 export default function DashboardLayout() {
   const { isAuthenticated, isLoading } = useSession()
@@ -15,9 +17,12 @@ export default function DashboardLayout() {
   }
 
   return (
-    <>
-      <Header />
-      <Outlet />
-    </>
+    <SidebarProvider>
+      <DashboardSidebar />
+      <main>
+        <SidebarTrigger />
+        <Outlet />
+      </main>
+    </SidebarProvider>
   )
 }
