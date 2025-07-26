@@ -17,7 +17,17 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { CreateLedger } from "@/components/create-ledger"
 
-export function LedgerSwitch() {
+export type LedgerSwitchProps = {
+  ledgers: {
+    id: string
+    name: string
+    owner: string
+    dateCreated: Date
+    dateUpdated: Date
+  }[]
+}
+
+export function LedgerSwitch({ ledgers }: LedgerSwitchProps) {
   const { isMobile } = useSidebar()
 
   return (
@@ -47,13 +57,15 @@ export function LedgerSwitch() {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               Ledgers
             </DropdownMenuLabel>
-            <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border">
-                {/* <team.logo className="size-3.5 shrink-0" /> */}
-              </div>
-              Personal
-              <DropdownMenuShortcut></DropdownMenuShortcut>
-            </DropdownMenuItem>
+            {ledgers.map(ledger => (
+              <DropdownMenuItem key={ledger.id} className="gap-2 p-2">
+                <div className="flex size-6 items-center justify-center rounded-md border">
+                  {/* <team.logo className="size-3.5 shrink-0" /> */}
+                </div>
+                {ledger.name}
+                <DropdownMenuShortcut></DropdownMenuShortcut>
+              </DropdownMenuItem>
+            ))}
             <DropdownMenuSeparator />
             <CreateLedger />
           </DropdownMenuContent>
