@@ -1,4 +1,4 @@
-import { ChevronsUpDown, Plus } from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 
 import {
   SidebarMenu,
@@ -15,6 +15,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { CreateLedger } from "@/components/create-ledger"
 
 export function LedgerSwitch() {
   const { isMobile } = useSidebar()
@@ -54,14 +55,7 @@ export function LedgerSwitch() {
               <DropdownMenuShortcut></DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                <Plus className="size-4" />
-              </div>
-              <div className="text-muted-foreground font-medium">
-                New Ledger
-              </div>
-            </DropdownMenuItem>
+            <CreateLedger />
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
