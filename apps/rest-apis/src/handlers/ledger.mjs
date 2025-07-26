@@ -1,6 +1,6 @@
 import { Ledger } from "../models/ledger.mjs"
 
-export async function createLedger(request, response) {
+export async function createLedger(request, response, next) {
   const user = request.user
   const data = request.body
 
@@ -11,7 +11,17 @@ export async function createLedger(request, response) {
     })
     return response.status(201).json(result)
   } catch (error) {
-    console.log(error)
-    return response.status(500)
+    next(error)
+  }
+}
+
+export async function getLedgers(request, response, next) {
+  const user = request.user
+
+  try {
+    const result = await Ledger.find({ owner: user.id })
+    return response.status(200).json(result)
+  } catch (error) {
+    next(error)
   }
 }
