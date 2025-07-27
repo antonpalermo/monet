@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 import useSession from "@/hooks/useSession"
-import DashboardSidebar from "@/components/dashboard-sidebar"
+import { NavSidebar } from "@/components/nav-sidebar"
 
 export function DashboardLayout() {
   const { isAuthenticated, isLoading } = useSession()
@@ -18,7 +18,7 @@ export function DashboardLayout() {
 
   return (
     <SidebarProvider>
-      <DashboardSidebar />
+      <NavSidebar />
       <main>
         <SidebarTrigger />
         <Outlet />

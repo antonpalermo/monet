@@ -14,11 +14,11 @@ type Item = {
   isActive?: boolean
 }
 
-export type NavProps = {
+export type NavMainProps = {
   items: Item[]
 }
 
-export function Nav({ items }: NavProps) {
+export function NavMain({ items }: NavMainProps) {
   return (
     <SidebarMenu>
       {items.map(item => (

@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react"
+import { BadgeDollarSign, LayoutDashboard } from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
 import { LedgerSwitch } from "@/components/ledger-switch"
 import { Sidebar, SidebarContent, SidebarHeader } from "@/components/ui/sidebar"
-import { Nav } from "@/components/nav"
-import { BadgeDollarSign, LayoutDashboard } from "lucide-react"
-import { useEffect, useState } from "react"
 
-export default function DashboardSidebar() {
+export function NavSidebar() {
   const [ledgers, setLedgers] = useState([])
 
   const data = {
@@ -39,7 +40,7 @@ export default function DashboardSidebar() {
     <Sidebar>
       <SidebarHeader>
         <LedgerSwitch ledgers={ledgers} />
-        <Nav items={data.mainNav} />
+        <NavMain items={data.mainNav} />
       </SidebarHeader>
       <SidebarContent />
     </Sidebar>
