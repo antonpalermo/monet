@@ -4,8 +4,8 @@ import App from "./components/app"
 import Transactions from "./components/transactions"
 import SignIn from "./pages/signin"
 
-import AuthLayout from "./components/auth-layout"
-import DashboardLayout from "./components/dashboard-layout"
+import { AuthLayout } from "@/components/layouts/auth"
+import { DashboardLayout } from "@/components/layouts/dashboard"
 
 const routes = createBrowserRouter([
   {
