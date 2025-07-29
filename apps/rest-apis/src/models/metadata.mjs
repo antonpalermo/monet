@@ -31,4 +31,4 @@ const schema = new mongoose.Schema(
   }
 )
 
-export const Properties = mongoose.model("properties", schema)
+export const Metadata = mongoose.model("metadatas", schema)

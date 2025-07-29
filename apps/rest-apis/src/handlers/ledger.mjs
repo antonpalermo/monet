@@ -1,5 +1,5 @@
 import { Ledger } from "../models/ledger.mjs"
-import { Properties } from "../models/properties.mjs"
+import { Metadata } from "../models/metadata.mjs"
 
 export async function createLedger(request, response, next) {
   const user = request.user
@@ -11,7 +11,7 @@ export async function createLedger(request, response, next) {
       owner: user.id
     })
 
-    await Properties.findOneAndUpdate(
+    await Metadata.findOneAndUpdate(
       {
         owner: user.id
       },
@@ -38,10 +38,10 @@ export async function getLedgers(request, response, next) {
   try {
     // TODO: optimize this to a single database call.
     const result = await Ledger.find({ owner: user.id })
-    const userProps = await Properties.findOne({ owner: user.id })
+    const metadata = await Metadata.findOne({ owner: user.id })
 
     const defaultLedger = result.find(
-      ledger => ledger.id === userProps.properties.defaults.ledger.toString()
+      ledger => ledger.id === metadata.properties.defaults.ledger.toString()
     )
 
     return response.status(200).json({
