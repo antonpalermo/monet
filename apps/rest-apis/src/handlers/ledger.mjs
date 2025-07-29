@@ -36,9 +36,20 @@ export async function getLedgers(request, response, next) {
   const user = request.user
 
   try {
+    // TODO: optimize this to a single database call.
     const result = await Ledger.find({ owner: user.id })
-    return response.status(200).json(result)
+    const userProps = await Properties.findOne({ owner: user.id })
+
+    const defaultLedger = result.find(
+      ledger => ledger.id === userProps.properties.defaults.ledger.toString()
+    )
+
+    return response.status(200).json({
+      default: defaultLedger,
+      data: result
+    })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 }
