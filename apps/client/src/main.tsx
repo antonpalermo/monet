@@ -4,12 +4,16 @@ import { RouterProvider } from "react-router"
 
 import "./index.css"
 import routes from "./routes"
-import { SessionProvider } from "./contexts/session"
+
+import { LedgerProvider } from "@/contexts/ledger"
+import { SessionProvider } from "@/contexts/session"
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <SessionProvider>
-      <RouterProvider router={routes} />
+      <LedgerProvider>
+        <RouterProvider router={routes} />
+      </LedgerProvider>
     </SessionProvider>
   </StrictMode>
 )

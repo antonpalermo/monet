@@ -14,37 +14,18 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DialogFooter, DialogClose } from "@/components/ui/dialog"
 
-const formSchema = z.object({
-  name: z.string().min(3)
-})
+import useLedger from "@/hooks/use-ledger"
+import { LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
 
 export function LedgerCreateForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const { handleSubmit } = useLedger()
+
+  const form = useForm<z.infer<typeof LEDGER_FORM_SCHEMA>>({
     defaultValues: {
       name: ""
     },
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(LEDGER_FORM_SCHEMA)
   })
-
-  async function handleSubmit(data: z.infer<typeof formSchema>) {
-    try {
-      const request = await fetch("/api/ledger/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-
-      const result = await request.json()
-
-      form.reset()
-
-      console.log(result)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   return (
     <Form {...form}>

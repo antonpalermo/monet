@@ -1,34 +1,17 @@
-import { useEffect, useState } from "react"
-
-import { LedgerSwitch } from "@/components/ledger/switch"
 import {
   Sidebar,
   SidebarMenu,
   SidebarHeader,
   SidebarContent
 } from "@/components/ui/sidebar"
+import { LedgerSwitch } from "@/components/ledger/switch"
 
 export function NavSidebar() {
-  const [ledgers, setLedgers] = useState([])
-
-  async function getLedgers() {
-    try {
-      const request = await fetch("/api/ledger")
-      setLedgers(await request.json())
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getLedgers()
-  }, [])
-
   return (
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
-          <LedgerSwitch ledgers={ledgers} />
+          <LedgerSwitch />
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent />

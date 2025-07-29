@@ -1,4 +1,5 @@
 import { ChevronsUpDown, Plus } from "lucide-react"
+
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -12,23 +13,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton
 } from "@/components/ui/sidebar"
-import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
+import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 
-export type LedgerSwitchProps = {
-  ledgers: {
-    id: string
-    name: string
-    owner: string
-    dateCreated: Date
-    dateUpdated: Date
-  }[]
-}
+import useLedger from "@/hooks/use-ledger"
 
-export function LedgerSwitch({ ledgers }: LedgerSwitchProps) {
+export function LedgerSwitch() {
+  const { modal, ledgers } = useLedger()
   const { isMobile } = useSidebar()
 
-  const ledgerList = ledgers.map(ledger => (
+  const ledgerList = ledgers.data.map(ledger => (
     <DropdownMenuItem key={ledger.id} className="gap-2 p-2">
       <div className="flex size-6 items-center justify-center rounded-md border">
         {/* <team.logo className="size-3.5 shrink-0" /> */}
@@ -39,11 +33,11 @@ export function LedgerSwitch({ ledgers }: LedgerSwitchProps) {
 
   return (
     <SidebarMenuItem>
-      <Dialog>
+      <Dialog open={modal.open} onOpenChange={modal.onOpenChange}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
-              Personal
+              {ledgers.default?.name}
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
