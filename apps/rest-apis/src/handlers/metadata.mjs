@@ -5,14 +5,12 @@ import { Metadata } from "../models/metadata.mjs"
 // provided in the request.body
 export async function updateMetadata(request, response, next) {
   const body = request.body
-  const params = request.params
-
-  const id = new mongoose.Types.ObjectId(`${params.id}`)
+  const user = request.user
 
   try {
-    const result = await Metadata.findByIdAndUpdate(
+    const result = await Metadata.findOneAndUpdate(
       {
-        _id: id
+        owner: user.id
       },
       {
         properties: {
