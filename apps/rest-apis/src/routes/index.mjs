@@ -3,6 +3,7 @@ import express from "express"
 
 import authRoutes from "./auth.mjs"
 import ledgerRoutes from "./ledger.mjs"
+import metadataRoutes from "../routes/metadata.mjs"
 import transactionRoutes from "./transactions.mjs"
 
 const logger = debug("rest:app")
@@ -10,6 +11,7 @@ const routes = express.Router({ strict: true })
 
 routes.use("/auth", authRoutes)
 routes.use("/ledger", ledgerRoutes)
+routes.use("/metadata", metadataRoutes)
 routes.use("/transactions", transactionRoutes)
 
 routes.use((err, request, response, next) => {
