@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { SessionContext } from "../contexts/session-context"
 
-export default function useSession() {
+export function useSession() {
   const context = useContext(SessionContext)
 
   if (typeof context === "undefined") {

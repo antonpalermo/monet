@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DialogFooter, DialogClose } from "@/components/ui/dialog"
 
-import useLedger from "@/hooks/use-ledger"
+import { useLedger } from "@/hooks/use-ledger"
 import { LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
 
 export function LedgerCreateForm() {

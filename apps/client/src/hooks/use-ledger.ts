@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { LedgerContext } from "@/contexts/ledger-context"
 
-export default function useLedger() {
+export function useLedger() {
   const context = useContext(LedgerContext)
 
   if (typeof context === "undefined") {

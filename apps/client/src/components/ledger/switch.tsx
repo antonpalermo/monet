@@ -16,7 +16,7 @@ import {
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 
-import useLedger from "@/hooks/use-ledger"
+import { useLedger } from "@/hooks/use-ledger"
 
 export function LedgerSwitch() {
   const { modal, ledgers, isLoading } = useLedger()

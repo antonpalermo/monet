@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router"
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
-import useSession from "@/hooks/useSession"
+import { useSession } from "@/hooks/use-session"
 import { NavSidebar } from "@/components/nav-sidebar"
 
 export function DashboardLayout() {
