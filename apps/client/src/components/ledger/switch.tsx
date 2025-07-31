@@ -1,4 +1,4 @@
-import { ChevronsUpDown, Plus } from "lucide-react"
+import { CheckIcon, ChevronsUpDown, Plus } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 import { useLedger } from "@/hooks/use-ledger"
 
 export function LedgerSwitch() {
-  const { modal, ledgers, isLoading } = useLedger()
+  const { modal, ledgers, isLoading, updateDefaultLedger } = useLedger()
   const { isMobile } = useSidebar()
 
   if (isLoading) {
@@ -27,11 +27,16 @@ export function LedgerSwitch() {
   }
 
   const ledgerList = ledgers.data.map(ledger => (
-    <DropdownMenuItem key={ledger.id} className="gap-2 p-2">
+    <DropdownMenuItem
+      key={ledger.id}
+      className="gap-2 p-2"
+      onSelect={() => updateDefaultLedger(ledger.id)}
+    >
       <div className="flex size-6 items-center justify-center rounded-md border">
         {/* <team.logo className="size-3.5 shrink-0" /> */}
       </div>
       {ledger.name}
+      {ledgers.default?.id === ledger.id && <CheckIcon />}
     </DropdownMenuItem>
   ))
 

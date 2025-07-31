@@ -17,11 +17,17 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     queryKey: ["ledgers"],
     queryFn: fetchLedgers
   })
-  const ledgerMutation = useMutation({
+  const createLedgerMutation = useMutation({
     mutationFn: createLedger,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ledgers"] })
       setOpen(false)
+    }
+  })
+  const updateLedgerMutation = useMutation({
+    mutationFn: updateSelectedLedger,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ledgers"] })
     }
   })
 
@@ -41,6 +47,21 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     }
   }
 
+  async function updateSelectedLedger(id: string) {
+    try {
+      const request = await fetch("/api/metadata/properties", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ledger: id })
+      })
+      return await request.json()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async function fetchLedgers() {
     try {
       const request = await fetch("/api/ledger")
@@ -50,8 +71,12 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     }
   }
 
+  async function updateDefaultLedger(id: string) {
+    updateLedgerMutation.mutate(id)
+  }
+
   async function handleSubmit(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
-    ledgerMutation.mutate(data)
+    createLedgerMutation.mutate(data)
   }
 
   return (
@@ -63,6 +88,7 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
           open,
           onOpenChange: setOpen
         },
+        updateDefaultLedger,
         handleSubmit
       }}
     >
