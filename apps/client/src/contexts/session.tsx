@@ -1,41 +1,35 @@
-import { useEffect, useState, type ReactNode } from "react"
-import { SessionContext, type User } from "./session-context"
+import { type ReactNode } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { SessionContext } from "@/contexts/session-context"
 
 export type SessionProviderProps = {
   children: ReactNode
 }
 
 export function SessionProvider({ children }: SessionProviderProps) {
-  const [user, setUser] = useState<User | undefined>(undefined)
-  const [loading, setLoading] = useState<boolean>(true)
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["session"],
+    queryFn: fetchSession
+  })
 
-  async function checkStatus() {
+  async function fetchSession() {
     try {
-      const res = await fetch("/api/auth/status")
+      const request = await fetch("/api/auth/status")
 
-      if (res.ok) {
-        const data: User = await res.json()
-        setUser(data)
-      } else if (res.status === 401) {
-        setUser(undefined)
-      } else {
-        console.log("Failed to fetch auth status: ", res.statusText)
+      if (request.status === 401) {
+        throw new Error("User unauthenticated" + request.statusText)
       }
+
+      return await request.json()
     } catch (error) {
-      console.log("unable to fetch user status", error)
-      setUser(undefined)
-    } finally {
-      setLoading(false)
+      console.log(error)
     }
   }
 
-  useEffect(() => {
-    checkStatus()
-  }, [])
-
   return (
     <SessionContext.Provider
-      value={{ isAuthenticated: !!user, isLoading: loading, user, checkStatus }}
+      value={{ isAuthenticated: !!user, isLoading, user }}
     >
       {children}
     </SessionContext.Provider>
