@@ -1,11 +1,9 @@
 import z from "zod"
 
-import { useEffect, useState, type ReactNode } from "react"
-import {
-  LEDGER_FORM_SCHEMA,
-  LedgerContext,
-  type Ledger
-} from "@/contexts/ledger-context"
+import { useState, type ReactNode } from "react"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+import { LedgerContext, LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
 
 export type LedgerProviderProps = {
   children: ReactNode
@@ -13,39 +11,61 @@ export type LedgerProviderProps = {
 
 export function LedgerProvider({ children }: LedgerProviderProps) {
   const [open, setOpen] = useState(false)
-  const [ledgers, setLedgers] = useState<{ default?: Ledger; data: Ledger[] }>({
-    data: []
+
+  const queryClient = useQueryClient()
+  const { data, isLoading } = useQuery({
+    queryKey: ["ledgers"],
+    queryFn: fetchLedgers
+  })
+  const ledgerMutation = useMutation({
+    mutationFn: createLedger,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ledgers"] })
+      setOpen(false)
+    }
   })
 
-  async function handleSubmit(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
-    console.log(data)
-    setOpen(false)
-  }
-
-  async function getLedgers() {
+  async function createLedger(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
     try {
-      const request = await fetch("/api/ledger")
-      setLedgers(await request.json())
+      const request = await fetch("/api/ledger/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+
+      return await request.json()
     } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(() => {
-    getLedgers()
-  }, [])
+  async function fetchLedgers() {
+    try {
+      const request = await fetch("/api/ledger")
+      return await request.json()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  const defaultValues = {
-    ledgers,
-    modal: {
-      open,
-      onOpenChange: setOpen
-    },
-    handleSubmit
+  async function handleSubmit(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
+    ledgerMutation.mutate(data)
   }
 
   return (
-    <LedgerContext.Provider value={defaultValues}>
+    <LedgerContext.Provider
+      value={{
+        isLoading,
+        ledgers: data,
+        modal: {
+          open,
+          onOpenChange: setOpen
+        },
+        handleSubmit
+      }}
+    >
       {children}
     </LedgerContext.Provider>
   )

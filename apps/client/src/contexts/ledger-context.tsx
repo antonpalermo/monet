@@ -22,6 +22,7 @@ export type LedgerContextProps = {
     open: boolean
     onOpenChange: (open: boolean) => void
   }
+  isLoading: boolean
   handleSubmit: (data: z.infer<typeof LEDGER_FORM_SCHEMA>) => Promise<void>
 }
 

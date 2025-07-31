@@ -19,8 +19,12 @@ import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 import useLedger from "@/hooks/use-ledger"
 
 export function LedgerSwitch() {
-  const { modal, ledgers } = useLedger()
+  const { modal, ledgers, isLoading } = useLedger()
   const { isMobile } = useSidebar()
+
+  if (isLoading) {
+    return null
+  }
 
   const ledgerList = ledgers.data.map(ledger => (
     <DropdownMenuItem key={ledger.id} className="gap-2 p-2">
