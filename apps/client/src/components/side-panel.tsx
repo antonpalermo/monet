@@ -4,9 +4,11 @@ import {
   Sidebar,
   SidebarMenu,
   SidebarHeader,
-  SidebarContent
+  SidebarContent,
+  SidebarFooter
 } from "@/components/ui/sidebar"
 import { NavMain } from "@/components/nav-main"
+import { NavUser } from "@/components/nav-user"
 import { LedgerSwitch } from "@/components/ledger/switch"
 
 export function SidePanel() {
@@ -35,6 +37,9 @@ export function SidePanel() {
       </SidebarHeader>
       <NavMain items={sidePanelData.main} />
       <SidebarContent />
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   )
 }
