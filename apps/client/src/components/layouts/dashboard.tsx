@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 import { useSession } from "@/hooks/use-session"
-import { NavSidebar } from "@/components/nav-sidebar"
+import { SidePanel } from "@/components/side-panel"
 
 export function DashboardLayout() {
   const { isAuthenticated, isLoading } = useSession()
@@ -18,10 +18,12 @@ export function DashboardLayout() {
 
   return (
     <SidebarProvider>
-      <NavSidebar />
-      <main>
-        <SidebarTrigger />
-        <Outlet />
+      <SidePanel />
+      <main className="px-5">
+        <div className="py-5 space-y-5">
+          <SidebarTrigger />
+          <Outlet />
+        </div>
       </main>
     </SidebarProvider>
   )

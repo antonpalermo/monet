@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router"
 
 import App from "./components/app"
-import Transactions from "./components/transactions"
 import SignIn from "./pages/signin"
+
+import { Transactions } from "@/components/transactions"
 
 import { AuthLayout } from "@/components/layouts/auth"
 import { DashboardLayout } from "@/components/layouts/dashboard"
