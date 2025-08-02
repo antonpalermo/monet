@@ -9,10 +9,18 @@ import transactionRoutes from "./transactions.mjs"
 const logger = debug("rest:app")
 const routes = express.Router({ strict: true })
 
+function requireAuth(request, response, next) {
+  if (typeof request.user === "undefined") {
+    return response.status(401)
+  }
+
+  next()
+}
+
 routes.use("/auth", authRoutes)
-routes.use("/ledger", ledgerRoutes)
-routes.use("/metadata", metadataRoutes)
-routes.use("/transactions", transactionRoutes)
+routes.use("/ledger", requireAuth, ledgerRoutes)
+routes.use("/metadata", requireAuth, metadataRoutes)
+routes.use("/transactions", requireAuth, transactionRoutes)
 
 routes.use((err, request, response, next) => {
   logger(`${request.path} encountered an error`)

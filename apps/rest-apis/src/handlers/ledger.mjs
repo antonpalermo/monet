@@ -49,7 +49,6 @@ export async function getLedgers(request, response, next) {
       data: result
     })
   } catch (error) {
-    console.log(error)
     next(error)
   }
 }
