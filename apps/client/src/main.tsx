@@ -9,6 +9,7 @@ import routes from "./routes"
 
 import { LedgerProvider } from "@/contexts/ledger"
 import { SessionProvider } from "@/contexts/session"
+import { TransactionProvider } from "@/contexts/transaction-provider"
 
 const client = new QueryClient()
 
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
     <QueryClientProvider client={client}>
       <SessionProvider>
         <LedgerProvider>
-          <RouterProvider router={routes} />
+          <TransactionProvider>
+            <RouterProvider router={routes} />
+          </TransactionProvider>
         </LedgerProvider>
       </SessionProvider>
     </QueryClientProvider>

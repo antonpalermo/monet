@@ -19,8 +19,8 @@ export function DashboardLayout() {
   return (
     <SidebarProvider>
       <SidePanel />
-      <main className="px-5">
-        <div className="py-5 space-y-5">
+      <main className="w-full px-5">
+        <div className="w-full py-5 space-y-5">
           <SidebarTrigger />
           <Outlet />
         </div>
