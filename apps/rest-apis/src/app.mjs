@@ -1,10 +1,12 @@
 import { fileURLToPath } from "node:url"
 
-import path from "node:path"
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import debug from "debug"
 import express from "express"
+import path from "node:path"
 import passport from "passport"
 import session from "express-session"
-import cookieParser from "cookie-parser"
 
 import { RedisStore } from "connect-redis"
 import { createClient } from "redis"
@@ -12,8 +14,6 @@ import { createClient } from "redis"
 import routes from "./routes/index.mjs"
 
 import "./strategies/google-strategy.mjs"
-
-import debug from "debug"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -36,6 +36,11 @@ export default function createApp() {
     prefix: "auth:"
   })
 
+  app.use(
+    cors({
+      origin: process.env.CLIENT_URL
+    })
+  )
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use(cookieParser(process.env.COOKIE_SECRET))
