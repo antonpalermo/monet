@@ -20,7 +20,7 @@ import { useSession } from "@/hooks/use-session"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
-  const { user, isLoading } = useSession()
+  const { user, isLoading, signOut } = useSession()
 
   if (isLoading) {
     return null
@@ -61,7 +61,7 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onSelect={signOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

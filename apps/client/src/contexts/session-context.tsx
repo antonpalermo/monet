@@ -13,6 +13,7 @@ type SessionContextProps = {
   user: User | undefined
   isAuthenticated: boolean
   isLoading: boolean
+  signOut: () => void
 }
 
 export const SessionContext = createContext<SessionContextProps | undefined>(
