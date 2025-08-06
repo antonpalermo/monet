@@ -8,7 +8,7 @@ import "./index.css"
 import routes from "./routes"
 
 import { LedgerProvider } from "@/contexts/ledger"
-import { SessionProvider } from "@/contexts/session"
+import { SessionProvider } from "@/contexts/session-provider"
 import { TransactionProvider } from "@/contexts/transaction-provider"
 
 const client = new QueryClient()
