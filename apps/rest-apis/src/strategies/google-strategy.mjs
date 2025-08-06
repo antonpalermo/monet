@@ -23,7 +23,7 @@ export default passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/auth/oauth2/redirect/google",
+      callbackURL: "/api/callback/oauth2/google",
       scope: ["profile", "email"]
     },
     async function verify(accessToken, refreshToken, profile, done) {

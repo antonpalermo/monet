@@ -1,22 +1,23 @@
-import debug from "debug"
 import express from "express"
 import passport from "passport"
 
-const logger = debug("rest:transaction")
+import { getStatus, signOut } from "../handlers/auth.mjs"
+
 const routes = express.Router({ strict: true })
 
+/**
+ * authenticate user using google provider
+ */
 routes.get("/signin/google", passport.authenticate("google"))
 
-routes.get(
-  "/oauth2/redirect/google",
-  passport.authenticate("google", {
-    successRedirect: process.env.CLIENT_URL,
-    failureRedirect: `${process.env.CLIENT_URL}/auth/signin?status=error`
-  })
-)
+/**
+ * get currently authenticated user details
+ */
+routes.get("/status", getStatus)
 
-routes.get("/status", (req, res) => {
-  return req.user ? res.send(req.user) : res.sendStatus(401)
-})
+/**
+ * sinout currently authenticated user
+ */
+routes.post("/signout", signOut)
 
 export default routes

@@ -3,6 +3,7 @@ import express from "express"
 
 import authRoutes from "./auth.mjs"
 import ledgerRoutes from "./ledger.mjs"
+import callbackRoutes from "./callback.mjs"
 import metadataRoutes from "../routes/metadata.mjs"
 import transactionRoutes from "./transactions.mjs"
 
@@ -18,6 +19,8 @@ function requireAuth(request, response, next) {
 }
 
 routes.use("/auth", authRoutes)
+routes.use("/callback", callbackRoutes)
+
 routes.use("/ledger", requireAuth, ledgerRoutes)
 routes.use("/metadata", requireAuth, metadataRoutes)
 routes.use("/transactions", requireAuth, transactionRoutes)
