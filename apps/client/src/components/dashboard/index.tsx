@@ -5,6 +5,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { useSession } from "@/hooks/use-session"
 import { SidePanel } from "@/components/side-panel"
 
+export { Main } from "@/components/dashboard/main"
+
 export function DashboardLayout() {
   const { isAuthenticated, isLoading } = useSession()
 
