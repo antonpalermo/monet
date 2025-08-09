@@ -5,7 +5,7 @@ import authRoutes from "./auth.mjs"
 import ledgerRoutes from "./ledger.mjs"
 import callbackRoutes from "./callback.mjs"
 import metadataRoutes from "../routes/metadata.mjs"
-import transactionRoutes from "./transactions.mjs"
+import transactionRoutes from "./transaction.mjs"
 
 const logger = debug("rest:app")
 const routes = express.Router({ strict: true })
