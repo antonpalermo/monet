@@ -23,7 +23,7 @@ routes.use("/callback", callbackRoutes)
 
 routes.use("/ledger", requireAuth, ledgerRoutes)
 routes.use("/metadata", requireAuth, metadataRoutes)
-routes.use("/transactions", requireAuth, transactionRoutes)
+routes.use("/transactions", transactionRoutes)
 
 routes.use((err, request, response, next) => {
   logger(`${request.path} encountered an error`)
