@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { TransactionContext } from "@/contexts/transaction-context"
 
-export function useSession() {
+export function useTransaction() {
   const context = useContext(TransactionContext)
 
   if (typeof context === "undefined") {
