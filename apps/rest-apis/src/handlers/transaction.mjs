@@ -13,7 +13,6 @@ export async function createTransaction(request, response, next) {
 
     return response.status(200).json(result)
   } catch (error) {
-    console.log(error)
     next(error)
   }
 }
