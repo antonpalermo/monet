@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import "./index.css"
 import routes from "./routes"
 
-import { LedgerProvider } from "@/contexts/ledger"
+import { LedgerProvider } from "@/contexts/ledger-provider"
 import { SessionProvider } from "@/contexts/session-provider"
 import { TransactionProvider } from "@/contexts/transaction-provider"
 
