@@ -12,6 +12,9 @@ export type TransactionContextProps = {
     open: boolean
     onOpenChange: (open: boolean) => void
   }
+  createTransaction: (
+    data: z.infer<typeof TRANSACTION_FORM_SCHEMA>
+  ) => Promise<void>
 }
 
 export const TransactionContext = createContext<
