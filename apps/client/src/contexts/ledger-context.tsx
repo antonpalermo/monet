@@ -14,6 +14,7 @@ export type Ledger = z.infer<typeof LEDGER_FORM_SCHEMA> & {
 }
 
 export type LedgerContextProps = {
+  current?: Ledger
   ledgers: {
     default?: Ledger
     data: Ledger[]

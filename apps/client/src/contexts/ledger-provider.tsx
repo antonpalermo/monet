@@ -79,9 +79,14 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     createLedgerMutation.mutate(data)
   }
 
+  if (isLoading) {
+    return null
+  }
+
   return (
     <LedgerContext.Provider
       value={{
+        current: data.default,
         isLoading,
         ledgers: data,
         modal: {

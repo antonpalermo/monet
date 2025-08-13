@@ -19,12 +19,8 @@ import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 import { useLedger } from "@/hooks/use-ledger"
 
 export function LedgerSwitch() {
-  const { modal, ledgers, isLoading, updateDefaultLedger } = useLedger()
+  const { modal, current, ledgers, updateDefaultLedger } = useLedger()
   const { isMobile } = useSidebar()
-
-  if (isLoading) {
-    return null
-  }
 
   const ledgerList = ledgers.data.map(ledger => (
     <DropdownMenuItem
@@ -36,7 +32,7 @@ export function LedgerSwitch() {
         {/* <team.logo className="size-3.5 shrink-0" /> */}
       </div>
       {ledger.name}
-      {ledgers.default?.id === ledger.id && <CheckIcon />}
+      {current?.id === ledger.id && <CheckIcon />}
     </DropdownMenuItem>
   ))
 
@@ -46,7 +42,7 @@ export function LedgerSwitch() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
-              {ledgers.default?.name}
+              {current?.name}
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
