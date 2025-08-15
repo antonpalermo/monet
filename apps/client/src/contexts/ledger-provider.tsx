@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { LedgerContext, LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
+import { switchLedgerFn } from "@/lib/services/ledger"
 
 export type LedgerProviderProps = {
   children: ReactNode
@@ -24,8 +25,8 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
       setOpen(false)
     }
   })
-  const updateLedgerMutation = useMutation({
-    mutationFn: updateSelectedLedger,
+  const switchLedgerMutation = useMutation({
+    mutationFn: switchLedgerFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ledgers"] })
     }
@@ -47,21 +48,6 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     }
   }
 
-  async function updateSelectedLedger(id: string) {
-    try {
-      const request = await fetch("/api/metadata/properties", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ledger: id })
-      })
-      return await request.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   async function fetchLedgers() {
     try {
       const request = await fetch("/api/ledger")
@@ -71,8 +57,8 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
     }
   }
 
-  async function updateDefaultLedger(id: string) {
-    updateLedgerMutation.mutate(id)
+  async function switchLedger(id: string) {
+    switchLedgerMutation.mutate(id)
   }
 
   async function handleSubmit(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
@@ -93,7 +79,7 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
           open,
           onOpenChange: setOpen
         },
-        updateDefaultLedger,
+        switchLedger,
         handleSubmit
       }}
     >
