@@ -1,3 +1,23 @@
+import z from "zod"
+
+import { LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
+
+export async function createLedgerFn(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
+  try {
+    const request = await fetch("/api/ledger/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+
+    return await request.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function switchLedgerFn(id: string) {
   try {
     const request = await fetch("/api/metadata/properties", {

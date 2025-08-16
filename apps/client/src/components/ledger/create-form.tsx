@@ -18,7 +18,7 @@ import { useLedger } from "@/hooks/use-ledger"
 import { LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
 
 export function LedgerCreateForm() {
-  const { handleSubmit } = useLedger()
+  const { createLedger: handleSubmit } = useLedger()
 
   const form = useForm<z.infer<typeof LEDGER_FORM_SCHEMA>>({
     defaultValues: {

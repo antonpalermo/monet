@@ -25,7 +25,7 @@ export type LedgerContextProps = {
   }
   isLoading: boolean
   switchLedger: (id: string) => Promise<void>
-  handleSubmit: (data: z.infer<typeof LEDGER_FORM_SCHEMA>) => Promise<void>
+  createLedger: (data: z.infer<typeof LEDGER_FORM_SCHEMA>) => Promise<void>
 }
 
 export const LedgerContext = createContext<LedgerContextProps | undefined>(
