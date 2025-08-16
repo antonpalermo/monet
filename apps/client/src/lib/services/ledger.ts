@@ -2,6 +2,16 @@ import z from "zod"
 
 import { LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
 
+export async function getLedgersFn() {
+  try {
+    const request = await fetch("/api/ledger")
+    return await request.json()
+  } catch (error) {
+    // TODO: find a way to correctly handle error.
+    console.log(error)
+  }
+}
+
 export async function createLedgerFn(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
   try {
     const request = await fetch("/api/ledger/create", {
@@ -14,6 +24,7 @@ export async function createLedgerFn(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
 
     return await request.json()
   } catch (error) {
+    // TODO: find a way to correctly handle error.
     console.log(error)
   }
 }

@@ -4,7 +4,11 @@ import { useState, type ReactNode } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { LedgerContext, LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
-import { createLedgerFn, switchLedgerFn } from "@/lib/services/ledger"
+import {
+  getLedgersFn,
+  createLedgerFn,
+  switchLedgerFn
+} from "@/lib/services/ledger"
 
 export type LedgerProviderProps = {
   children: ReactNode
@@ -16,7 +20,7 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
   const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ["ledgers"],
-    queryFn: fetchLedgers
+    queryFn: getLedgersFn
   })
   const createLedgerMutation = useMutation({
     mutationFn: createLedgerFn,
@@ -31,15 +35,6 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
       queryClient.invalidateQueries({ queryKey: ["ledgers"] })
     }
   })
-
-  async function fetchLedgers() {
-    try {
-      const request = await fetch("/api/ledger")
-      return await request.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   async function switchLedger(id: string) {
     switchLedgerMutation.mutate(id)
