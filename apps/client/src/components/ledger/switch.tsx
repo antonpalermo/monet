@@ -19,14 +19,14 @@ import { LedgerCreateDialog } from "@/components/ledger/create-dialog"
 import { useLedger } from "@/hooks/use-ledger"
 
 export function LedgerSwitch() {
-  const { modal, current, ledgers, updateDefaultLedger } = useLedger()
+  const { modal, current, ledgers, switchLedger } = useLedger()
   const { isMobile } = useSidebar()
 
   const ledgerList = ledgers.data.map(ledger => (
     <DropdownMenuItem
       key={ledger.id}
       className="gap-2 p-2"
-      onSelect={() => updateDefaultLedger(ledger.id)}
+      onSelect={() => switchLedger(ledger.id)}
     >
       <div className="flex size-6 items-center justify-center rounded-md border">
         {/* <team.logo className="size-3.5 shrink-0" /> */}
