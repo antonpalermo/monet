@@ -4,6 +4,11 @@ import { useState, type ReactNode } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { LedgerContext, LEDGER_FORM_SCHEMA } from "@/contexts/ledger-context"
+import {
+  getLedgersFn,
+  createLedgerFn,
+  switchLedgerFn
+} from "@/lib/services/ledger"
 
 export type LedgerProviderProps = {
   children: ReactNode
@@ -15,81 +20,46 @@ export function LedgerProvider({ children }: LedgerProviderProps) {
   const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ["ledgers"],
-    queryFn: fetchLedgers
+    queryFn: getLedgersFn
   })
   const createLedgerMutation = useMutation({
-    mutationFn: createLedger,
+    mutationFn: createLedgerFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ledgers"] })
       setOpen(false)
     }
   })
-  const updateLedgerMutation = useMutation({
-    mutationFn: updateSelectedLedger,
+  const switchLedgerMutation = useMutation({
+    mutationFn: switchLedgerFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ledgers"] })
     }
   })
 
+  async function switchLedger(id: string) {
+    switchLedgerMutation.mutate(id)
+  }
+
   async function createLedger(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
-    try {
-      const request = await fetch("/api/ledger/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-
-      return await request.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function updateSelectedLedger(id: string) {
-    try {
-      const request = await fetch("/api/metadata/properties", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ledger: id })
-      })
-      return await request.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function fetchLedgers() {
-    try {
-      const request = await fetch("/api/ledger")
-      return await request.json()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function updateDefaultLedger(id: string) {
-    updateLedgerMutation.mutate(id)
-  }
-
-  async function handleSubmit(data: z.infer<typeof LEDGER_FORM_SCHEMA>) {
     createLedgerMutation.mutate(data)
+  }
+
+  if (isLoading) {
+    return null
   }
 
   return (
     <LedgerContext.Provider
       value={{
+        current: data.default,
         isLoading,
         ledgers: data,
         modal: {
           open,
           onOpenChange: setOpen
         },
-        updateDefaultLedger,
-        handleSubmit
+        switchLedger,
+        createLedger
       }}
     >
       {children}

@@ -14,6 +14,7 @@ export type Ledger = z.infer<typeof LEDGER_FORM_SCHEMA> & {
 }
 
 export type LedgerContextProps = {
+  current?: Ledger
   ledgers: {
     default?: Ledger
     data: Ledger[]
@@ -23,8 +24,8 @@ export type LedgerContextProps = {
     onOpenChange: (open: boolean) => void
   }
   isLoading: boolean
-  updateDefaultLedger: (id: string) => Promise<void>
-  handleSubmit: (data: z.infer<typeof LEDGER_FORM_SCHEMA>) => Promise<void>
+  switchLedger: (id: string) => Promise<void>
+  createLedger: (data: z.infer<typeof LEDGER_FORM_SCHEMA>) => Promise<void>
 }
 
 export const LedgerContext = createContext<LedgerContextProps | undefined>(

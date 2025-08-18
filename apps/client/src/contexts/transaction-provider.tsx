@@ -16,7 +16,7 @@ export type TransactionProviderProps = {
 export function TransactionProvider({ children }: TransactionProviderProps) {
   const [open, setOpen] = useState(false)
 
-  const { ledgers } = useLedger()
+  const { current } = useLedger()
   const { invalidateQueries } = useQueryClient()
 
   const createTransactionMutation = useMutation({
@@ -31,7 +31,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   async function createTransaction(
     data: z.infer<typeof TRANSACTION_FORM_SCHEMA>
   ) {
-    createTransactionMutation.mutate({ ledger: ledgers.default?.id, data })
+    createTransactionMutation.mutate({ ledger: current?.id, data })
   }
 
   return (
