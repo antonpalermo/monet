@@ -1,20 +1,12 @@
 {
-  "name": "@monet/source",
+  "name": "rest-backend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {},
-  "devDependencies": {
-    "debug": "^4.4.1",
-    "dotenv-cli": "^8.0.0"
-  },
+  "devDependencies": {},
   "author": "Anton Angelo N. Palermo <anpbusinessmail@gmail.com>",
-  "license": "MIT",
-  "workspaces": [
-    "apps/client",
-    "apps/rest-apis",
-    "apps/rest-backend"
-  ]
+  "license": "MIT"
 }
