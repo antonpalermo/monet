@@ -13,13 +13,10 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { TRANSACTION_FORM_SCHEMA } from "@/contexts/transaction-context"
 import { DialogFooter, DialogClose } from "@/components/ui/dialog"
-import { useTransaction } from "@/hooks/use-transcation"
 
 type Transaction = z.infer<typeof TRANSACTION_FORM_SCHEMA>
 
 export function CreateTransactionForm() {
-  const { createTransaction } = useTransaction()
-
   const form = useForm<Transaction>({
     defaultValues: {
       name: ""
@@ -27,7 +24,7 @@ export function CreateTransactionForm() {
   })
 
   async function handleSubmit(data: Transaction) {
-    createTransaction(data)
+    console.log(data)
   }
 
   return (
