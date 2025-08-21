@@ -1,6 +1,6 @@
 import z from "zod"
 
-import type { TRANSACTION_FORM_SCHEMA } from "@/contexts/transaction-context"
+import type { TRANSACTION_FORM_SCHEMA } from "@/components/transactions/context"
 
 export async function createTransactionMutationFn(payload: {
   ledger: string | undefined

@@ -9,10 +9,14 @@ import routes from "./routes"
 
 const client = new QueryClient()
 
+import { TransactionProvider } from "@/components/transactions/provider"
+
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <QueryClientProvider client={client}>
-      <RouterProvider router={routes} />
+      <TransactionProvider>
+        <RouterProvider router={routes} />
+      </TransactionProvider>
     </QueryClientProvider>
   </StrictMode>
 )

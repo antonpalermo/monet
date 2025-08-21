@@ -5,8 +5,7 @@ import { useState, type ReactNode } from "react"
 import {
   TransactionContext,
   TRANSACTION_FORM_SCHEMA
-} from "@/contexts/transaction-context"
-import { useLedger } from "@/hooks/use-ledger"
+} from "@/components/transactions/context"
 import { createTransactionMutationFn } from "@/lib/services/transaction"
 
 export type TransactionProviderProps = {
@@ -16,13 +15,11 @@ export type TransactionProviderProps = {
 export function TransactionProvider({ children }: TransactionProviderProps) {
   const [open, setOpen] = useState(false)
 
-  const { current } = useLedger()
   const { invalidateQueries } = useQueryClient()
 
   const createTransactionMutation = useMutation({
     mutationFn: createTransactionMutationFn,
     onSuccess: () => {
-      // invalidate query
       invalidateQueries({ queryKey: [""] })
       setOpen(false)
     }
@@ -31,7 +28,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   async function createTransaction(
     data: z.infer<typeof TRANSACTION_FORM_SCHEMA>
   ) {
-    createTransactionMutation.mutate({ ledger: current?.id, data })
+    createTransactionMutation.mutate({ ledger: "", data })
   }
 
   return (

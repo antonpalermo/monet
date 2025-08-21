@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { TRANSACTION_FORM_SCHEMA } from "@/contexts/transaction-context"
+import { TRANSACTION_FORM_SCHEMA } from "@/components/transactions/context"
 import { DialogFooter, DialogClose } from "@/components/ui/dialog"
 
 type Transaction = z.infer<typeof TRANSACTION_FORM_SCHEMA>
