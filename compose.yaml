@@ -9,8 +9,34 @@ services:
     ports:
       - 3000:3000
     networks:
-      - backend-network
+      - backend
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    container_name: monet-mongodb
+    image: mongo
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+    volumes:
+      - database-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
 networks:
   backend:
     name: backend-network
+
+volumes:
+  database-data:
+    driver: local
