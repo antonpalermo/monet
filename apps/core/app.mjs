@@ -7,11 +7,14 @@ import logger from "morgan"
 
 import indexRouter from "./routes/index.mjs"
 import usersRouter from "./routes/users.mjs"
+import database from "./database.mjs"
 
 const app = express()
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+database.connect()
 
 app.use(logger("dev"))
 app.use(express.json())
