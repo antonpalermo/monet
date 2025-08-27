@@ -1,10 +1,9 @@
 import express from "express"
 
-const router = express.Router()
+import transactionsRouter from "./transactions.mjs"
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" })
-})
+const router = express.Router({ strict: true })
+
+router.use("/transactions", transactionsRouter)
 
 export default router
