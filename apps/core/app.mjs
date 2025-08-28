@@ -2,6 +2,7 @@ import path from "node:path"
 import url from "node:url"
 
 import express from "express"
+import cors from 'cors'
 import cookieParser from "cookie-parser"
 import logger from "morgan"
 
@@ -18,6 +19,10 @@ database.connect()
 app.use(logger("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
 
