@@ -9,6 +9,7 @@
   "author": "Anton Angelo N. Palermo <anpbusinessmail@gmail.com>",
   "license": "MIT",
   "workspaces": [
+    "apps/client",
     "apps/core"
   ]
 }
