@@ -2,10 +2,6 @@
   "name": "@monet/source",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {},
   "devDependencies": {
     "debug": "^4.4.1",
     "dotenv-cli": "^8.0.0"
@@ -14,7 +10,6 @@
   "license": "MIT",
   "workspaces": [
     "apps/client",
-    "apps/rest-apis",
-    "apps/rest-backend"
+    "apps/core"
   ]
 }
