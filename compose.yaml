@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5173:5173
+      - 5173:4173
     depends_on:
       - core
     networks:
