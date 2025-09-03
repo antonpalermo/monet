@@ -1,45 +1,33 @@
-import { useEffect, useState } from "react"
+import { useTransactions } from "../hooks/use-transactions"
 
 export function App() {
-  const [name, setName] = useState("")
-  const [transactions, setTransactions] = useState({})
+  const { transactions } = useTransactions()
 
-  async function getTransactions() {
-    try {
-      const request = await fetch("/api/transactions")
-      const data = await request.json()
+  // async function handleCreateTransaction() {
+  //   try {
+  //     const request = await fetch("/api/transactions/create", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({ name })
+  //     })
 
-      setTransactions(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     if (request.ok) {
+  //       setName("")
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  async function handleCreateTransaction() {
-    try {
-      const request = await fetch("/api/transactions/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name })
-      })
-
-      if (request.ok) {
-        setName("")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getTransactions()
-  }, [])
+  // useEffect(() => {
+  //   getTransactions()
+  // }, [])
 
   return (
     <div>
-      <div>
+      {/* <div>
         {name}
         <input
           type="text"
@@ -49,7 +37,7 @@ export function App() {
           onChange={e => setName(e.target.value)}
         />
         <button onClick={handleCreateTransaction}>create</button>
-      </div>
+      </div> */}
       <pre>{JSON.stringify(transactions, null, 2)}</pre>
     </div>
   )
