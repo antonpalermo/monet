@@ -10,6 +10,7 @@
   "license": "MIT",
   "workspaces": [
     "apps/client",
-    "apps/core"
+    "apps/core",
+    "apps/services-transaction-function"
   ]
 }
