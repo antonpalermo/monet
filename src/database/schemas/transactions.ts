@@ -1,4 +1,4 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import { index, numeric, pgTable, text, timestamp } from "drizzle-orm/pg-core"
 import { nanoid } from "../../helpers"
 
 export const transactions = pgTable(
@@ -9,7 +9,7 @@ export const transactions = pgTable(
       .primaryKey()
       .$defaultFn(() => nanoid()),
     name: text().notNull(),
-    amount: text().notNull(),
+    amount: numeric({ mode: "number", precision: 100, scale: 2 }).notNull(),
     dateCreated: timestamp().defaultNow(),
     dateUpdated: timestamp().$onUpdate(() => new Date())
   },
