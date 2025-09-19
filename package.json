@@ -1,16 +1,23 @@
 {
-  "name": "@monet/source",
-  "version": "1.0.0",
-  "private": true,
-  "devDependencies": {
-    "debug": "^4.4.1",
-    "dotenv-cli": "^8.0.0"
+  "name": "monet",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --env development",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "drizzle:gen": "drizzle-kit generate",
+    "drizzle:migrate:dev": "NODE_ENV='development' bun drizzle-kit migrate"
   },
-  "author": "Anton Angelo N. Palermo <anpbusinessmail@gmail.com>",
-  "license": "MIT",
-  "workspaces": [
-    "apps/client",
-    "apps/core",
-    "apps/services-transaction-function"
-  ]
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.44.5",
+    "hono": "^4.9.8",
+    "nanoid": "^5.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "drizzle-kit": "^0.31.4",
+    "wrangler": "^4.4.0"
+  }
 }
