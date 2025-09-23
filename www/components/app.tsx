@@ -16,7 +16,7 @@ export function App() {
 
   return (
     <div>
-      <h1>Transactions</h1>
+      <h1 className="text-blue-500">Transactions</h1>
       <pre>{JSON.stringify(transactions, null, 2)}</pre>
     </div>
   )
