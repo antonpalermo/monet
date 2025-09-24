@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 export function App() {
-  const [transactions, setTransactions] = useState([])
-
-  useEffect(() => {
-    async function getTransaction() {
-      const request = await fetch("/api/transactions")
-      if (request.ok) {
-        setTransactions(await request.json())
-      }
+  const getTransaction = async () => {
+    const request = await fetch("/api/transactions")
+    if (!request.ok) {
+      throw new Error("unable to get all transactions")
     }
+    return await request.json()
+  }
 
-    getTransaction()
-  }, [])
+  const { data: transactions, isLoading } = useQuery({
+    queryKey: ["get-transaction"],
+    queryFn: getTransaction,
+    staleTime: Infinity
+  })
+
+  if (isLoading) {
+    return <h1>Loading...</h1>
+  }
 
   return (
     <div>
