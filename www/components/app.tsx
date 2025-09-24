@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
 
 export function App() {
   const getTransaction = async () => {
@@ -22,6 +23,7 @@ export function App() {
   return (
     <div>
       <h1 className="text-blue-500">Transactions</h1>
+      <Button>Sample</Button>
       <pre>{JSON.stringify(transactions, null, 2)}</pre>
     </div>
   )

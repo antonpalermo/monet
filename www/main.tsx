@@ -3,9 +3,9 @@ import { createRoot } from "react-dom/client"
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 
-import "./globals.css"
+import "@/globals.css"
 
-import { App } from "./components/app"
+import { App } from "@/components/app"
 
 const queryClient = new QueryClient()
 
