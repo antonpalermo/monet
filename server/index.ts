@@ -5,13 +5,13 @@ import { secureHeaders } from "hono/secure-headers"
 import transactionsRoute from "./routes/transactions"
 
 const app = new Hono<{ Bindings: CloudflareBindings }>()
-  .basePath("/api")
-  .route("/transactions", transactionsRoute)
 
 app.use(logger())
 app.use(secureHeaders())
 
-export type BackendTypes = typeof app
+const appRoutes = app.basePath("/api").route("/transactions", transactionsRoute)
+
+export type BackendTypes = typeof appRoutes
 export default {
   fetch: app.fetch
 }

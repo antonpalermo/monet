@@ -1,13 +1,15 @@
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 
+import { api } from "@/lib/api"
+
 export function App() {
   const getTransaction = async () => {
-    const request = await fetch("/api/transactions")
-    if (!request.ok) {
+    const req = await api.transactions.$get()
+    if (!req.ok) {
       throw new Error("unable to get all transactions")
     }
-    return await request.json()
+    return await req.json()
   }
 
   const { data: transactions, isLoading } = useQuery({

@@ -24,8 +24,14 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@server/*": ["../server/*"]
     }
   },
-  "include": ["components/**/*", "main.tsx", "vite-env.d.ts"]
+  "include": [
+    "components/**/*",
+    "lib/**/*",
+    "main.tsx",
+    "vite-env.d.ts"
+  ]
 }
