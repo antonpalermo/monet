@@ -32,6 +32,7 @@
     "components/**/*",
     "lib/**/*",
     "main.tsx",
+    "routes.tsx",
     "vite-env.d.ts"
   ]
 }
