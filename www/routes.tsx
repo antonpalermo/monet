@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router"
 
-import { TransactionsPage } from "@/components/pages/transactions"
+import { TransactionsPage } from "@/components/transactions"
 import { DashboardPage } from "@/components/pages/dashboard"
 
 import { DashboardLayout } from "@/components/layout"
