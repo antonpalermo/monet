@@ -1,32 +1,24 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import {
+  ArrowUpDown,
+  EllipsisVerticalIcon,
+  PencilIcon,
+  Trash2Icon
+} from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 
+import { parseTimestamp } from "@/components/transactions/parse-timestamp"
 import { type Transaction } from "@/lib/schemas/transaction"
-
-function parseTimestamp(timestamp: string) {
-  const date = new Date(timestamp)
-
-  const month = date.getUTCMonth() + 1
-  const day = date.getDate()
-  const year = date.getFullYear()
-
-  let hours = date.getHours()
-  const minutes = date.getMinutes()
-
-  const currentHour = hours > 12 ? "PM" : "AM"
-  hours = hours % 12
-  hours = hours ? hours : 12
-
-  const paddedMonth = `${month}`.padStart(2, "0")
-  const paddedDay = `${day}`.padStart(2, "0")
-  const paddedHours = `${hours}`.padStart(2, "0")
-  const paddedMinutes = `${minutes}`.padStart(2, "0")
-
-  return `${paddedMonth}-${paddedDay}-${year} ${paddedHours}:${paddedMinutes} ${currentHour}`
-}
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "../ui/dropdown-menu"
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -82,5 +74,30 @@ export const columns: ColumnDef<Transaction>[] = [
     accessorKey: "dateCreated",
     header: "Date Created",
     cell: ({ row }) => <div>{parseTimestamp(row.getValue("dateCreated"))}</div>
+  },
+  {
+    id: "action",
+    cell: () => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <EllipsisVerticalIcon />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <PencilIcon />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Trash2Icon />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+    enableHiding: false
   }
 ]

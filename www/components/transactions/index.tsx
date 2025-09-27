@@ -9,7 +9,7 @@ export function TransactionsPage() {
   }
 
   return (
-    <div className="px-5 space-y-5">
+    <div className="px-5 space-y-3">
       <h1 className="font-bold text-2xl">Ledger Transactions</h1>
       <TransactionTable data={transaction.data} />
     </div>
