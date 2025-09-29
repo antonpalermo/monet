@@ -14,6 +14,7 @@ export async function getTransactions(
   const db = drizzle({ client: pgsql })
 
   try {
+    const count = await db.$count(transactions)
     const result = await db.execute(sql`
       SELECT "id", "name", "amount", "dateCreated", "dateUpdated" FROM (
         SELECT ROW_NUMBER() OVER (ORDER BY "dateCreated" DESC) rn, *
@@ -23,7 +24,7 @@ export async function getTransactions(
     ORDER BY "dateCreated" DESC`)
 
     return c.json({
-      count: result.rowCount,
+      count,
       data: result.rows,
       message: "all transactions successfully fetched"
     })
