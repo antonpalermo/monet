@@ -1,24 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import {
-  ArrowUpDown,
-  EllipsisVerticalIcon,
-  PencilIcon,
-  Trash2Icon
-} from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
 
 import { parseTimestamp } from "@/components/transactions/parse-timestamp"
 import { type Transaction } from "@/lib/schemas/transaction"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "../ui/dropdown-menu"
+import { ColumnHeader } from "../column-header"
+import { CellActions } from "../transactions/cell-actions"
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -45,20 +32,12 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Name
-        <ArrowUpDown />
-      </Button>
-    ),
+    header: ({ column }) => <ColumnHeader column={column} title="Name" />,
     cell: ({ row }) => <div>{row.getValue("name")}</div>
   },
   {
     accessorKey: "amount",
-    header: "Amount",
+    header: ({ column }) => <ColumnHeader column={column} title="Amount" />,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
 
@@ -72,32 +51,15 @@ export const columns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "dateCreated",
-    header: "Date Created",
-    cell: ({ row }) => <div>{parseTimestamp(row.getValue("dateCreated"))}</div>
+    header: ({ column }) => (
+      <ColumnHeader column={column} title="Date Created" />
+    ),
+    cell: ({ row }) => <div>{parseTimestamp(row.getValue("dateCreated"))}</div>,
+    enableSorting: false
   },
   {
     id: "action",
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <EllipsisVerticalIcon />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <PencilIcon />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Trash2Icon />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
+    cell: () => <CellActions />,
     enableHiding: false
   }
 ]
