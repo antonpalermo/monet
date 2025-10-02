@@ -5,7 +5,7 @@ import { neon } from "@neondatabase/serverless"
 import { drizzle } from "drizzle-orm/neon-http"
 
 import { transactions } from "../database/schemas/transactions"
-import { sql } from "drizzle-orm"
+import { desc, gt, sql } from "drizzle-orm"
 
 export async function getTransactions(
   c: Context<{ Bindings: CloudflareBindings }>
@@ -14,18 +14,16 @@ export async function getTransactions(
   const db = drizzle({ client: pgsql })
 
   try {
-    const count = await db.$count(transactions)
-    const result = await db.execute(sql`
-      SELECT "id", "name", "amount", "dateCreated", "dateUpdated" FROM (
-        SELECT ROW_NUMBER() OVER (ORDER BY "dateCreated" DESC) rn, *
-      FROM transactions
-    ) tmp
-    WHERE rn BETWEEN 1 AND 40
-    ORDER BY "dateCreated" DESC`)
+    // only get transactions for the past 30 days
+    const dateFilter = sql`NOW() - INTERVAL '30 days'`
+    const result = await db
+      .select()
+      .from(transactions)
+      .where(gt(transactions.dateCreated, dateFilter))
+      .orderBy(desc(transactions.dateCreated))
 
     return c.json({
-      count,
-      data: result.rows,
+      data: result,
       message: "all transactions successfully fetched"
     })
   } catch (error) {
