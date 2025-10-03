@@ -1,6 +1,7 @@
 import {
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable
 } from "@tanstack/react-table"
 
@@ -14,15 +15,6 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { columns } from "@/components/transactions/table-columns"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "../ui/dropdown-menu"
-import { ChevronDown } from "lucide-react"
 
 export type TransactionTableProps = {
   data: Transaction[]
@@ -32,58 +24,12 @@ export function TransactionTable({ data }: TransactionTableProps) {
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
   })
-
-  function TransactionNameFilter() {
-    return (
-      <Input
-        className="max-w-sm"
-        placeholder="Search transaction"
-        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-        onChange={e => table.getColumn("name")?.setFilterValue(e.target.value)}
-      />
-    )
-  }
-
-  function TableHeaderVisibility() {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">
-            Columns <ChevronDown />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {table
-            .getAllColumns()
-            .filter(column => column.getCanHide())
-            .map(column => {
-              return (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={value => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              )
-            })}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    )
-  }
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <TransactionNameFilter />
-        <div className="ml-auto space-x-3">
-          <Button>New Transaction</Button>
-          <TableHeaderVisibility />
-        </div>
-      </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>

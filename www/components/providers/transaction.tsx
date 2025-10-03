@@ -1,7 +1,7 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { TransactionContext } from "@/contexts"
+import { TransactionContext, type TransactionContextType } from "@/contexts"
 import { getTransacations } from "@/lib/api"
 
 export type TransactionProviderProps = {
@@ -13,9 +13,12 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
     queryKey: ["get-transactions"],
     queryFn: getTransacations
   })
+  const [value, setValue] = useState<TransactionContextType>({
+    data: transactions?.data
+  })
 
   return (
-    <TransactionContext.Provider value={{ data: transactions?.data }}>
+    <TransactionContext.Provider value={value}>
       {children}
     </TransactionContext.Provider>
   )
