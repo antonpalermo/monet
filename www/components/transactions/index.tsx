@@ -1,34 +1,39 @@
 import {
-  useReactTable,
   getCoreRowModel,
-  getFilteredRowModel
+  getFilteredRowModel,
+  useReactTable
 } from "@tanstack/react-table"
 
 import { useTransaction } from "@/hooks/use-transaction"
-import { TransactionTable } from "@/components/transactions/table"
-import { ColumnFilter } from "@/components/column-filter"
+
 import { Button } from "@/components/ui/button"
+import { columns } from "@/components/transactions/table-columns"
+import { ColumnFilter } from "@/components/column-filter"
 import { ColumnVisibility } from "@/components/column-visibility"
+import { TransactionTable } from "./table"
 
 export function TransactionsPage() {
-  const transaction = useTransaction()
+  // transaction hook
+  const { transactions } = useTransaction()
+  // react table
   const table = useReactTable({
-    data: transaction.data,
+    data: transactions!,
+    columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel()
   })
 
   return (
-    <div className="px-5 space-y-3 pb-5">
-      <h1 className="font-bold text-2xl">Ledger Transactions</h1>
-      <div className="flex items-center py-4">
-        <ColumnFilter table={table} column="name" />
+    <div className="w-full my-5 px-5 space-y-5">
+      <h1 className="font-bold text-2xl">Transactions</h1>
+      <div className="w-full flex items-center">
+        <ColumnFilter column="name" table={table} />
         <div className="ml-auto space-x-3">
-          <Button>New Transaction</Button>
+          <Button>New transactions</Button>
           <ColumnVisibility table={table} />
         </div>
       </div>
-      <TransactionTable data={transaction.data} />
+      <TransactionTable table={table} />
     </div>
   )
 }

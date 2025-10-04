@@ -1,9 +1,4 @@
-import {
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable
-} from "@tanstack/react-table"
+import { flexRender, type Table as TanstackTable } from "@tanstack/react-table"
 
 import type { Transaction } from "@/lib/schemas/transaction"
 import {
@@ -14,20 +9,13 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { columns } from "@/components/transactions/table-columns"
+import { columns } from "./table-columns"
 
 export type TransactionTableProps = {
-  data: Transaction[]
+  table: TanstackTable<Transaction>
 }
 
-export function TransactionTable({ data }: TransactionTableProps) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
-  })
-
+export function TransactionTable({ table }: TransactionTableProps) {
   return (
     <div className="w-full">
       <div className="overflow-hidden rounded-md border">
@@ -67,7 +55,9 @@ export function TransactionTable({ data }: TransactionTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell>No result</TableCell>
+                <TableCell colSpan={columns.length} className="text-center">
+                  No data available
+                </TableCell>
               </TableRow>
             )}
           </TableBody>

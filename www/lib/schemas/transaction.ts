@@ -7,6 +7,6 @@ export const transcationSchema = z.object({
 
 export type Transaction = z.infer<typeof transcationSchema> & {
   id: string
-  dateCreated: string | null
-  dateUpdated: string | null
+  dateCreated: string
+  dateUpdated: string
 }

@@ -39,7 +39,7 @@ export function CellActions() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="flex">
         <Button variant="ghost" size="icon" className="ml-auto">
           <EllipsisVerticalIcon />
         </Button>
@@ -58,7 +58,7 @@ export function CellActions() {
           </>
         ))}
         <DropdownMenuItem>
-          <Trash2Icon/>
+          <Trash2Icon />
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

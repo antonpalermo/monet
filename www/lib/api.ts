@@ -6,10 +6,11 @@ const client = hc<BackendTypes>("/")
 export const api = client.api
 
 export async function getTransacations() {
-  try {
-    const req = await api.transactions.$get()
-    return await req.json()
-  } catch (error) {
-    throw new Error("unable to get all transactions", { cause: error })
+  const request = await api.transactions.$get()
+
+  if (!request.ok) {
+    throw new Error("unable to fetch all transactions")
   }
+
+  return await request.json()
 }

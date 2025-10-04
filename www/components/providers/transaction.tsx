@@ -1,24 +1,32 @@
-import { useState, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { TransactionContext, type TransactionContextType } from "@/contexts"
+import { TransactionContext } from "@/contexts"
 import { getTransacations } from "@/lib/api"
+import type { Transaction } from "@/lib/schemas/transaction"
 
 export type TransactionProviderProps = {
   children: ReactNode
 }
 
+export type TransactionQueryResponse = {
+  data: Transaction[]
+  message: string
+}
+
 export function TransactionProvider({ children }: TransactionProviderProps) {
-  const { data: transactions } = useQuery({
+  const { data, isLoading } = useQuery<TransactionQueryResponse>({
     queryKey: ["get-transactions"],
-    queryFn: getTransacations
-  })
-  const [value, setValue] = useState<TransactionContextType>({
-    data: transactions?.data
+    queryFn: getTransacations,
+    staleTime: Infinity
   })
 
+  if (isLoading) {
+    return null
+  }
+
   return (
-    <TransactionContext.Provider value={value}>
+    <TransactionContext.Provider value={{ transactions: data!.data }}>
       {children}
     </TransactionContext.Provider>
   )

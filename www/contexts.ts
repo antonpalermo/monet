@@ -3,9 +3,9 @@ import { createContext } from "react"
 import { type Transaction } from "@/lib/schemas/transaction"
 
 export type TransactionContextType = {
-  data: Transaction[]
+  transactions: Transaction[]
 }
 
-export const TransactionContext = createContext<TransactionContextType | null>(
-  null
-)
+export const TransactionContext = createContext<TransactionContextType>({
+  transactions: []
+})
