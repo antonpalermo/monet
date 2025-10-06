@@ -1,6 +1,7 @@
 import {
   getCoreRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
 
@@ -20,7 +21,8 @@ export function TransactionsPage() {
     data: transactions!,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel()
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel()
   })
 
   return (
