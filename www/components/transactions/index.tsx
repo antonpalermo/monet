@@ -1,6 +1,7 @@
 import {
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
@@ -12,6 +13,7 @@ import { columns } from "@/components/transactions/table-columns"
 import { ColumnFilter } from "@/components/column-filter"
 import { ColumnVisibility } from "@/components/column-visibility"
 import { TransactionTable } from "./table"
+import { TablePagination } from "./table-pagination"
 
 export function TransactionsPage() {
   // transaction hook
@@ -22,7 +24,8 @@ export function TransactionsPage() {
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel()
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
   })
 
   return (
@@ -36,6 +39,9 @@ export function TransactionsPage() {
         </div>
       </div>
       <TransactionTable table={table} />
+      <div>
+        <TablePagination />
+      </div>
     </div>
   )
 }
