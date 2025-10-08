@@ -9,7 +9,7 @@ import {
 import { useTransaction } from "@/hooks/use-transaction"
 
 import { Button } from "@/components/ui/button"
-import { columns } from "@/components/transactions/table-columns"
+import { columns } from "@/components/transactions/columns"
 import { ColumnFilter } from "@/components/column-filter"
 import { ColumnVisibility } from "@/components/column-visibility"
 import { TransactionTable } from "./table"

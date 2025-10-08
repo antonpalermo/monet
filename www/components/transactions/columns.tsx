@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { parseTimestamp } from "@/components/transactions/parse-timestamp"
 import { type Transaction } from "@/lib/schemas/transaction"
 import { ColumnHeader } from "../column-header"
-import { CellActions } from "../transactions/cell-actions"
+import { CellActions } from "./cell-actions"
 
 export const columns: ColumnDef<Transaction>[] = [
   {

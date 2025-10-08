@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
-import { columns } from "./table-columns"
+import { columns } from "./columns"
 
 export type TransactionTableProps = {
   table: TanstackTable<Transaction>
