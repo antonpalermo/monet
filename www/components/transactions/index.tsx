@@ -8,12 +8,12 @@ import {
 
 import { useTransaction } from "@/hooks/use-transaction"
 
+import { ColumnFilter } from "@/components/column-filter"
 import { Button } from "@/components/ui/button"
 import { columns } from "@/components/transactions/columns"
-import { ColumnFilter } from "@/components/column-filter"
+import { DataTable } from "@/components/transactions/data-table"
 import { ColumnVisibility } from "@/components/column-visibility"
-import { TransactionTable } from "./table"
-import { TablePagination } from "./table-pagination"
+import { TablePagination } from "@/components/transactions/table-pagination"
 
 export function TransactionsPage() {
   // transaction hook
@@ -38,7 +38,7 @@ export function TransactionsPage() {
           <ColumnVisibility table={table} />
         </div>
       </div>
-      <TransactionTable table={table} />
+      <DataTable data={transactions} />
       <div>
         <TablePagination />
       </div>

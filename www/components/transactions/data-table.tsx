@@ -2,6 +2,7 @@ import type { FC } from "react"
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable
 } from "@tanstack/react-table"
 
@@ -16,16 +17,28 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { columns } from "@/components/transactions/columns"
+import { UnavailableRecord } from "./unavailable-record"
+import { DebounceInput } from "../debounce-input"
+import React from "react"
+import { Button } from "../ui/button"
 
 export type DataTableProps = {
   data: Transaction[]
 }
 
 export const DataTable: FC<DataTableProps> = ({ data }) => {
+  const [globalFilter, setGlobalFilter] = React.useState("")
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      globalFilter
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "auto"
   })
 
   const tableHeader = table.getHeaderGroups().map(headerGroup => (
@@ -51,17 +64,25 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
       </TableRow>
     ))
   ) : (
-    <TableRow>
-      <TableCell colSpan={columns.length} className="text-center">
-        No data available
-      </TableCell>
-    </TableRow>
+    <UnavailableRecord />
   )
 
   return (
-    <Table>
-      <TableHeader>{tableHeader}</TableHeader>
-      <TableBody>{tableBody}</TableBody>
-    </Table>
+    <>
+      <div className="w-full flex items-center">
+        <DebounceInput
+          initialValue={globalFilter}
+          onChange={val => setGlobalFilter(String(val))}
+          placeholder="Search"
+        />
+        <div className="ml-auto space-x-3">
+          <Button>Create Transaction</Button>
+        </div>
+      </div>
+      <Table>
+        <TableHeader>{tableHeader}</TableHeader>
+        <TableBody>{tableBody}</TableBody>
+      </Table>
+    </>
   )
 }
