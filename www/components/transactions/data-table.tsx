@@ -3,7 +3,8 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  useReactTable
+  useReactTable,
+  type VisibilityState
 } from "@tanstack/react-table"
 
 import type { Transaction } from "@/lib/schemas/transaction"
@@ -21,6 +22,7 @@ import { UnavailableRecord } from "./unavailable-record"
 import { DebounceInput } from "../debounce-input"
 import React from "react"
 import { Button } from "../ui/button"
+import { ColumnVisibility } from "../column-visibility"
 
 export type DataTableProps = {
   data: Transaction[]
@@ -28,6 +30,8 @@ export type DataTableProps = {
 
 export const DataTable: FC<DataTableProps> = ({ data }) => {
   const [globalFilter, setGlobalFilter] = React.useState("")
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
 
   const table = useReactTable({
     data,
@@ -35,9 +39,11 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-      globalFilter
+      globalFilter,
+      columnVisibility
     },
     onGlobalFilterChange: setGlobalFilter,
+    onColumnVisibilityChange: setColumnVisibility,
     globalFilterFn: "auto"
   })
 
@@ -74,9 +80,13 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
           initialValue={globalFilter}
           onChange={val => setGlobalFilter(String(val))}
           placeholder="Search"
+          className="max-w-md"
         />
         <div className="ml-auto space-x-3">
           <Button>Create Transaction</Button>
+          <ColumnVisibility
+            column={table.getAllColumns().filter(col => col.getCanHide())}
+          />
         </div>
       </div>
       <Table>

@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react"
-import type { Table } from "@tanstack/react-table"
+import type { Column } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,10 +11,21 @@ import {
 import type { Transaction } from "@/lib/schemas/transaction"
 
 export type ColumnVisibilityProps = {
-  table: Table<Transaction>
+  column: Column<Transaction, unknown>[] | undefined
 }
 
-export function ColumnVisibility({ table }: ColumnVisibilityProps) {
+export function ColumnVisibility({ column }: ColumnVisibilityProps) {
+  const content = column?.map(col => (
+    <DropdownMenuCheckboxItem
+      key={col.id}
+      className="capitalize"
+      checked={col.getIsVisible()}
+      onChange={e => col.toggleVisibility(!!e)}
+    >
+      {col.id}
+    </DropdownMenuCheckboxItem>
+  ))
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,23 +33,7 @@ export function ColumnVisibility({ table }: ColumnVisibilityProps) {
           Columns <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {table
-          .getAllColumns()
-          .filter(column => column.getCanHide())
-          .map(column => {
-            return (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={value => column.toggleVisibility(!!value)}
-              >
-                {column.id}
-              </DropdownMenuCheckboxItem>
-            )
-          })}
-      </DropdownMenuContent>
+      <DropdownMenuContent align="end">{content}</DropdownMenuContent>
     </DropdownMenu>
   )
 }
