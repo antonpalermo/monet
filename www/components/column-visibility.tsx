@@ -20,7 +20,7 @@ export function ColumnVisibility({ column }: ColumnVisibilityProps) {
       key={col.id}
       className="capitalize"
       checked={col.getIsVisible()}
-      onChange={e => col.toggleVisibility(!!e)}
+      onCheckedChange={e => col.toggleVisibility(!!e)}
     >
       {col.id}
     </DropdownMenuCheckboxItem>
