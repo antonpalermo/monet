@@ -1,11 +1,18 @@
 import type { FC } from "react"
+import React, { useState } from "react"
+
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   useReactTable,
+  type PaginationState,
   type VisibilityState
 } from "@tanstack/react-table"
+
+import { DebounceInput } from "@/components/debounce-input"
+import { ColumnVisibility } from "@/components/column-visibility"
 
 import type { Transaction } from "@/lib/schemas/transaction"
 
@@ -17,12 +24,11 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+
 import { columns } from "@/components/transactions/columns"
-import { UnavailableRecord } from "./unavailable-record"
-import { DebounceInput } from "../debounce-input"
-import React from "react"
-import { Button } from "../ui/button"
-import { ColumnVisibility } from "../column-visibility"
+import { TablePagination } from "@/components/transactions/pagination"
+import { UnavailableRecord } from "@/components/transactions/unavailable-record"
 
 export type DataTableProps = {
   data: Transaction[]
@@ -32,18 +38,25 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
   const [globalFilter, setGlobalFilter] = React.useState("")
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10
+  })
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       globalFilter,
-      columnVisibility
+      columnVisibility,
+      pagination
     },
     onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
     globalFilterFn: "auto"
   })
 
@@ -93,6 +106,15 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
         <TableHeader>{tableHeader}</TableHeader>
         <TableBody>{tableBody}</TableBody>
       </Table>
+      <div className="w-full flex items-center">
+        <TablePagination
+          pageCount={table.getPageCount()}
+          nextPage={table.nextPage}
+          previousPage={table.previousPage}
+          canGetNextPage={table.getCanNextPage}
+          canGetPreviousPage={table.getCanPreviousPage}
+        />
+      </div>
     </>
   )
 }
