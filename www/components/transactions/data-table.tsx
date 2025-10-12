@@ -102,17 +102,21 @@ export const DataTable: FC<DataTableProps> = ({ data }) => {
           />
         </div>
       </div>
-      <Table>
-        <TableHeader>{tableHeader}</TableHeader>
-        <TableBody>{tableBody}</TableBody>
-      </Table>
+      <div className="border rounded-md">
+        <Table>
+          <TableHeader>{tableHeader}</TableHeader>
+          <TableBody>{tableBody}</TableBody>
+        </Table>
+      </div>
       <div className="w-full flex items-center">
         <TablePagination
+          currentPage={table.getState().pagination.pageIndex}
           pageCount={table.getPageCount()}
           nextPage={table.nextPage}
           previousPage={table.previousPage}
           canGetNextPage={table.getCanNextPage}
           canGetPreviousPage={table.getCanPreviousPage}
+          setPageIndex={i => table.setPageIndex(i)}
         />
       </div>
     </>
