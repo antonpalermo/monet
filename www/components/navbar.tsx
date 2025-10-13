@@ -3,7 +3,7 @@ import { Link } from "react-router"
 
 export function Navbar() {
   return (
-    <nav className="container px-3 mx-auto max-w-7xl">
+    <nav className="w-full my-5 px-5">
       <div className="w-full inline-flex py-3 items-center justify-between">
         <span>Monet</span>
         <div>
