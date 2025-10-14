@@ -7,13 +7,16 @@ import "@/globals.css"
 import "@fontsource-variable/inter"
 
 import { router } from "@/routes"
+import { TransactionProvider } from "@/components/providers/transaction"
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <TransactionProvider>
+        <RouterProvider router={router} />
+      </TransactionProvider>
     </QueryClientProvider>
   </StrictMode>
 )

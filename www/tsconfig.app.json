@@ -31,8 +31,10 @@
   "include": [
     "components/**/*",
     "lib/**/*",
+    "hooks/**/*",
     "main.tsx",
     "routes.tsx",
+    "contexts.ts",
     "vite-env.d.ts",
     "globals.d.ts"
   ]

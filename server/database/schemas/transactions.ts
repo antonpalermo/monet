@@ -10,8 +10,10 @@ export const transactions = pgTable(
       .$defaultFn(() => nanoid()),
     name: text().notNull(),
     amount: numeric({ mode: "number", precision: 100, scale: 2 }).notNull(),
-    dateCreated: timestamp().defaultNow(),
-    dateUpdated: timestamp().$onUpdate(() => new Date())
+    dateCreated: timestamp().defaultNow().notNull(),
+    dateUpdated: timestamp()
+      .$onUpdate(() => new Date())
+      .notNull()
   },
   table => [index("transaction_id_index").on(table.id)]
 )
